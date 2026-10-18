@@ -1,7 +1,10 @@
 # Precios de referencia (créditos)
 
-Medidos el 18 de octubre de 2026 en la cuenta Plus de Fitcore. Solo orientación: los precios cambian.
-Siempre cotizar en vivo con `get_cost: true` antes de recomendar.
+Medidos el 18 de octubre de 2026 en la cuenta Plus de Fitcore, cotizando desde Claude (conector y CLI).
+Solo orientación: los precios cambian, y la web de Higgsfield puede mostrar precios distintos
+(el usuario vio GPT Image 2.5 a 0.75 en baja y 11 en alta en la web).
+Siempre cotizar en vivo con `get_cost: true`, con calidad y resolución explícitas, antes de recomendar.
+El precio es por generación: multiplicar por `count`.
 
 ## Video (720p por defecto, sin audio salvo que se indique)
 
@@ -31,8 +34,11 @@ Siempre cotizar en vivo con `get_cost: true` antes de recomendar.
 | Modelo | Ajustes | Créditos |
 |---|---|---|
 | `z_image` | | 0.15 |
-| `gpt_image_2_5` | low / medium / high (1k) | 0.25 / 0.5 / 1.5 |
-| `gpt_image_2_5` | high 2k / 4k | 2.75 / 4.25 |
+| `gpt_image_2_5` | low 1k / 2k / 4k | 0.25 / 0.5 / 0.75 |
+| `gpt_image_2_5` | medium 1k / 2k / 4k | 0.5 / 1 / 1.25 |
+| `gpt_image_2_5` | high 1k / 2k / 4k | 1.5 / 2.75 / 4.25 |
+| `gpt_image_2_5` | xhigh 1k / 2k / 4k | 2.5 / 4.5 / 7 |
+| `gpt_image_2_5` | max 1k / 2k / 4k | 5 / 9 / 15 |
 | `seedream_5_0_flash` | | 0.5 |
 | `kling_omni_image` | | 0.5 |
 | `seedream_v4_5`, `seedream_v5_lite`, `flux_2`, `nano_banana_2_lite` | | 1 |

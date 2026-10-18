@@ -41,7 +41,11 @@ Hazlo en paralelo:
 
 - `balance`: créditos disponibles.
 - `models_explore` con `action: "recommend"`, `type` (video o image), `input` (text o image) y una `query` que describa la pieza. Mira el bloque `unlim` y los modelos con `supports_unlim`: si hay generaciones ilimitadas disponibles que cubren un modelo apto, esa es la opción de 0 créditos.
-- Para cada candidato (2 o 3), pedir el costo real con `get_cost: true` en `generate_video` o `generate_image` con los parámetros exactos (modelo, duración, medida, resolución, calidad, audio). Nunca inventar precios: la tabla de `references/precios-referencia.md` es solo orientación y puede estar desactualizada.
+- Para cada candidato (2 o 3), pedir el costo real con `get_cost: true` en `generate_video` o `generate_image` con los parámetros exactos (modelo, duración, medida, resolución, calidad, audio). Nunca inventar precios ni dar precios de memoria: la tabla de `references/precios-referencia.md` es solo orientación y puede estar desactualizada.
+- Cuidado con la cotización:
+  - Pasar siempre `quality` y `resolution` explícitos. Si se omiten, se cotiza el valor por defecto (que suele ser el más barato) y el precio real sale distinto.
+  - `get_cost` devuelve el precio de UNA generación aunque se pida `count` mayor: multiplicar por la cantidad de variantes.
+  - La cotización vale para generar desde Claude (conector o CLI). La web de Higgsfield puede cobrar distinto o usar otros valores por defecto (más resolución, varias imágenes por clic). Si el usuario va a generar en la web o reporta un precio distinto visto en la web, creerle, usar su número y decirlo en la tabla.
 
 Candidatos: elígelos con `references/guia-modelos.md` según el tipo de pieza.
 
@@ -65,10 +69,9 @@ Debajo:
 
 Cuando la pieza necesita imágenes nuevas (primer cuadro, escena, persona, ad estático):
 
-- En Higgsfield, GPT Image 2.5 cuesta muy poco (cotizar; orientativo 0.25 en `quality: low`, 1.5 en `high`). Nano Banana Pro y Nano Banana 2.1 son los mejores para respetar el envase real usando la foto del producto como referencia.
-- Ventaja de generar en Higgsfield: el `job_id` de la imagen se usa directo como referencia del video, sin descargar ni subir nada.
-- Ofrece ChatGPT cuando conviene de verdad: muchas iteraciones conversacionales sobre la misma imagen ("muévelo, cambia la luz, ahora sin texto"), o cuando el saldo de Higgsfield está bajo. Pregunta: "¿La hacemos en ChatGPT (incluido en tu plan, la subes después) o aquí con <modelo> por <X> créditos?". Si elige ChatGPT, entrega el prompt listo para pegar, la medida y qué foto de referencia adjuntar; luego súbela con `media_upload`.
-- Para fotos de producto donde la etiqueta debe salir fiel, recomendar Higgsfield con la foto real (Drive > Fitcore Productos), no ChatGPT.
+- El usuario tiene generación de imágenes en ChatGPT incluida en su plan, sin costo extra. Por eso, cuando el modelo ideal sea de tipo GPT Image (texto en la imagen, composición compleja, escenas, personas, primer cuadro), la primera opción a ofrecer es ChatGPT: "¿La hacemos en ChatGPT (sin costo, la subes después) o aquí con <modelo> por <X> créditos?", con la cotización real de la opción en Higgsfield en la calidad y resolución que se usaría.
+- Si elige ChatGPT: entregar el prompt listo para pegar, la medida y qué foto de referencia adjuntar. Cuando la traiga, subirla con `media_upload` y usar su `media_id` en el video.
+- Recomendar Higgsfield en vez de ChatGPT solo cuando aporte algo: fotos de producto donde la etiqueta debe salir fiel (Nano Banana Pro o Nano Banana 2.1 con la foto real de Drive > Fitcore Productos), o cuando se quiere encadenar directo al video sin pasos manuales (el `job_id` de la imagen sirve como referencia sin subir nada). Mostrar el costo cotizado en ese caso.
 
 ## Paso 5. Confirmar y generar
 
@@ -81,7 +84,7 @@ Cuando la pieza necesita imágenes nuevas (primer cuadro, escena, persona, ad es
 
 Aplica las que sirvan para la pieza; no todas siempre.
 
-1. **Imagen antes que video**: para piezas nuevas, aprobar primero el primer cuadro como imagen (0.25 a 2 créditos) y animar después. Evita perder un video entero por composición.
+1. **Imagen antes que video**: para piezas nuevas, aprobar primero el primer cuadro como imagen (en ChatGPT sin costo, o en Higgsfield cotizado) y animar después. Evita perder un video entero por composición.
 2. **Borrador barato, final bueno**: probar movimiento y ritmo con un modelo barato o a 480p/720p; repetir en el modelo final solo cuando la idea funciona. Recomendado en formatos nuevos; opcional en formatos ya aprobados.
 3. **Duración mínima útil**: los créditos suben con los segundos. Un loop de 5 s se repite en edición.
 4. **Audio solo si hace falta**: la música se pone en edición; pagar audio generado solo para voz o sonido sincronizado.
